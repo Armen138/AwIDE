@@ -1,0 +1,14 @@
+AwIDE	
+Released under GPLv3
+
+Usage:
+Requires Xulrunner or Firefox
+
+commandline:
+
+xulrunner application.ini
+-or-
+firefox -app application.ini
+
+AwIDE is a development editor primarely intended for HTML5/Javascript-based projects.
+
