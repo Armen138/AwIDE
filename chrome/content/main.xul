@@ -1,0 +1,173 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<?xml-stylesheet href="chrome://awide/content/css/main.css" type="text/css"?>
+
+<window id="main" title="awide" sizemode="maximized" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul">		
+	<script type="application/javascript" src="chrome://awide/content/js/awide.js" />	
+	<script type="application/javascript" src="chrome://awide/content/js/awide.fs.js" />
+	<popupset>
+		<menupopup id='project-actions'>
+			<menuitem label="close project" id='project-actions-close'/>
+			<menuitem label="remove from project" id='project-actions-remove' oncommand="awide.projectContextRemove()" />
+			<!-- menuitem label="remove and svn del" id='project-actions-svn-del'/>
+			<menuitem label="remove and cvs del" id='project-actions-cvs-del'/ -->
+			<menuitem label="add file to project" id='project-actions-add' oncommand="awide.openFileSaveDialog()"/>			
+		</menupopup>
+	</popupset>	
+	<menubar id="file-menubar">
+	  <menu id="file-menu" label="File">
+		<menupopup id="file-popup">
+		  <menuitem label="New Project"/>
+		  <menu id="file-add-menu" label="Add">
+			<menupopup id="file-add-popup">
+				<menuitem label="New File" />
+				<menuitem label="Existing File" />
+			</menupopup>
+		  </menu>
+		  <menuitem label="Open" class='menuitem-iconic' oncommand="awide.openFileDialog()" image='chrome://awide/content/icons/document-open.png'/>
+		  <menuitem label="Save" class='menuitem-iconic' oncommand="awide.saveCurrentFile()" image='chrome://awide/content/icons/document-save.png'/>
+		  <menuseparator/>
+			<menuitem label="Add-Ons" class='menuitem-iconic' oncommand="awide.showExtensionsManager()" image='chrome://awide/content/icons/document-save.png'/>		  
+		  <menuitem label="Exit"/>
+		</menupopup>
+	  </menu>
+	  <menu id="edit-menu" label="Edit">
+		<menupopup id="edit-popup">
+		  <menuitem label="Undo" oncommand="awide.undo()" class='menuitem-iconic' image='chrome://awide/content/icons/edit-undo.png' />
+		  <menuitem label="Redo" oncommand="awide.redo()" class='menuitem-iconic' image='chrome://awide/content/icons/edit-redo.png'/>
+		  <menuitem label="Preferences"  oncommand="awide.preferences()" class='menuitem-iconic' image='chrome://awide/content/icons/preferences-system.png'/>
+		</menupopup>
+	  </menu>
+	  <menu id="build-menu" label="Project">
+		<menupopup id="build-popup">
+		  <menuitem label="Run" oncommand="awide.runCurrentProject()" class='menuitem-iconic' image='chrome://awide/content/icons/applications-system.png'/>
+		  <menuitem label="Project Options" oncommand="awide.projectPreferences()" class='menuitem-iconic' image='chrome://awide/content/icons/preferences-desktop.png'/>
+		</menupopup>
+	  </menu>	  
+	</menubar>
+	<toolbox>
+		<toolbar id='buildbar'>
+			<toolbarbutton oncommand="awide.openFileDialog()" image='chrome://awide/content/icons/document-open.png' tooltiptext="open" ></toolbarbutton>			
+			<toolbarbutton oncommand="awide.saveCurrentFile()" image='chrome://awide/content/icons/media-floppy.png' tooltiptext="save" ></toolbarbutton>			
+			<toolbarbutton id='runproject' oncommand="awide.runCurrentProject()" image='chrome://awide/content/icons/applications-system.png' tooltiptext="run"></toolbarbutton>			
+            <menulist id='methodlist' oncommand='awide.methodChanged()' >
+              <menupopup id='methodpopup'>
+                <menuitem label="global" value="0"/>
+              </menupopup>
+            </menulist>          
+		</toolbar>
+	</toolbox>
+	<vbox flex='1'>
+	<hbox flex='1'>
+		<tabbox flex='1'>
+			<arrowscrollbox allowevents="true" class="tabbrowser-arrowscrollbox" orient="horizontal">
+				<tabs id='editortabs' onselect='awide.tabChanged()'>					
+				</tabs>			
+			</arrowscrollbox>
+			<tabpanels flex='1' style='padding: 0px; margin: 0px;' id='editorpanels'>
+			</tabpanels>
+		</tabbox>		
+		<tree id='projecttree' onclick="awide.treeClicked(event)" rows="1" hidecolumnpicker="true" class="tree" seltype="single" style='min-width: 200px;' >
+		  <treecols>
+			<treecol id="projects" label="Projects" primary="true" flex="2"/>			
+		  </treecols>
+		  <treechildren id='projectlevel' context='project-actions'>
+		  </treechildren>
+		</tree>
+	</hbox>		
+		<tabbox flex='1' style='max-height: 250px;'>
+			<tabs id='statustabs'>
+				<tab label='status' image='chrome://awide/content/icons/dialog-information.png'></tab>
+				<tab label='lint' image='chrome://awide/content/icons/dialog-error.png'></tab>
+				<tab label='debug' image='chrome://awide/content/icons/dialog-error.png'></tab>
+				<tab label='search' image='chrome://awide/content/icons/edit-find.png'></tab>
+			</tabs>			
+			<tabpanels flex='1' style='padding: 0px; margin: 0px;' id='statuspanels'>
+				<tabpanel id='statusoutput'>
+					<listbox id='statusoutputlist' flex='1'>
+						<listhead>
+							<listheader label="" width="16" />
+							<listheader label="status" />						
+						</listhead>					
+						<listcols>
+							<listcol/>
+							<listcol flex='1' />
+						</listcols>						
+					</listbox>
+				</tabpanel>
+				<tabpanel id='erroroutput' >
+					<listbox id='erroroutputlist' onclick="awide.matchError(event)" flex='1'>
+						<listhead>
+							<listheader label="" width="16" />
+							<listheader label="line" width="25" />
+							<listheader label="char" width="25" />
+							<listheader label="error" />							
+						</listhead>			
+						<listcols>
+							<listcol/>
+							<listcol/>
+							<listcol/>
+							<listcol flex='1' />
+						</listcols>
+					</listbox>				
+				</tabpanel>
+				<tabpanel id='debugoutput' >
+					<listbox id='debugoutputlist' onclick="awide.matchDebugError(event)" flex='1'>
+						<listhead>
+							<listheader label="" width="16" />
+							<listheader label="line" width="25" />
+							<listheader label="char" width="25" />
+							<listheader label="error" />							
+							<listheader label="file" />
+						</listhead>			
+						<listcols>
+							<listcol/>
+							<listcol/>
+							<listcol/>
+							<listcol flex='1' />
+							<listcol/>
+						</listcols>
+					</listbox>				
+					<listbox id='stackoutputlist' onclick="awide.matchStackTrace(event)" flex='1'>
+						<listhead>
+							<listheader label="line" width="25" />
+							<listheader label="function" />		
+							<listheader label="file" />
+						</listhead>			
+						<listcols>
+							<listcol/>
+							<listcol flex='1' />
+							<listcol/>
+						</listcols>
+					</listbox>				
+					
+				</tabpanel>				
+				<tabpanel id='searchoutput' >
+					<vbox flex='1'>
+						<toolbar id='searchbar'>							
+							<textbox value='' id="searchbox" onchange='awide.search(this.value)' />						
+							<toolbarbutton oncommand="awide.clearSearchResults()" image='chrome://awide/content/icons/edit-clear.png' tooltiptext="clear search results"></toolbarbutton>
+						</toolbar>
+						<listbox id='searchoutputlist' onclick="awide.matchSearchResult(event)" flex='1'>
+							<listhead>
+								<listheader label="line" width="25" />
+								<listheader label="char" width="25" />
+								<listheader label="matches" />							
+							</listhead>			
+							<listcols>
+								<listcol/>
+								<listcol/>
+								<listcol flex='1' />
+							</listcols>
+						</listbox>
+					</vbox>
+				</tabpanel>
+
+			</tabpanels>
+		</tabbox>			
+	</vbox>
+	<statusbar>
+		<statusbarpanel id='statusbar_file' label='file/type' flex='1' />
+		<statusbarpanel id='statusbar_pos' label='[x,y]' />
+	</statusbar>
+</window>

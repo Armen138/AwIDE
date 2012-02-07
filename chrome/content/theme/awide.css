@@ -1,0 +1,32 @@
+.cm-s-awide { background: black; color: #D1D1D1; font-family: DejaVu Sans Mono; font-size: 14px; line-height: 16px;}
+.cm-s-awide span.cm-keyword {color: #FFFF8A;}
+.cm-s-awide span.cm-atom {color: #A59CFF;}
+.cm-s-awide span.cm-number {color: #FFB3FE;}
+.cm-s-awide span.cm-def {color: #A59CFF;}
+.cm-s-awide span.cm-variable {color: white;}
+.cm-s-awide span.cm-variable-2 {color: #CCCCCC;}
+.cm-s-awide span.cm-variable-3 {color: #999999;}
+.cm-s-awide span.cm-property {color: #D1D1D1;}
+.cm-s-awide span.cm-operator {color: #D1D1D1;}
+.cm-s-awide span.cm-comment {color: #7A7A7A;}
+.cm-s-awide span.cm-string {color: #5340FF;}
+.cm-s-awide span.cm-string-2 {color: #A59CFF;}
+.cm-s-awide span.cm-meta {color: #555;}
+.cm-s-awide span.cm-error {color: #f00;}
+.cm-s-awide span.cm-qualifier {color: #555;}
+.cm-s-awide span.cm-builtin {color: #A59CFF;}
+.cm-s-awide span.cm-bracket {color: #cc7;}
+.cm-s-awide span.cm-tag {color: #30C244;}
+.cm-s-awide span.cm-attribute {color: #A59CFF;}
+.cm-s-awide span.cm-header {color: #a0a;}
+.cm-s-awide span.cm-quote {color: #30C244;}
+.cm-s-awide span.cm-hr {color: #999;}
+.cm-s-awide span.cm-link {color: #A59CFF;}
+
+.cm-s-awide .CodeMirror-gutter { background: #444444; border-right: 3px solid #222222; min-width:2.5em; }
+.cm-s-awide .CodeMirror-gutter-text { color: white; }
+.cm-s-awide .CodeMirror-cursor { border-left: 1px solid white !important; }
+
+.cm-s-awide .CodeMirror-matchingbracket {	
+	color:yellow !important;
+}

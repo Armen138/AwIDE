@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<window id='project-preferences' title='Project Options' onclose='awide.saveProjectOptions()' xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" >
+	<vbox id='project-options-panel'>
+	
+	</vbox>
+	<hbox>
+		<button oncommand='close()' flex='1' >
+			<description>cancel</description>
+		</button>
+		<button oncommand='awide.saveProjectOptions()' flex='1' >
+			<description>save</description>
+		</button>
+	</hbox>
+</window>

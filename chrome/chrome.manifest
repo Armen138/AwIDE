@@ -1,0 +1,4 @@
+content awide content/
+locale branding en-US chrome/locale/branding/
+content branding chrome/branding/
+content branding chrome/locale/branding/

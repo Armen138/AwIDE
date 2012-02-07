@@ -1,0 +1,12 @@
+@charset 'UTF-8';
+.tabs-closebutton{ 
+	list-style-image: url( http://mozilla.org/favicon.ico); 
+} 
+
+tabs{
+	height: 32px;
+}
+
+tab label{
+	padding: 4px;
+}

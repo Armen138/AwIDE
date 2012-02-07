@@ -1,0 +1,163 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="chrome://global/skin/" type="text/css"?>
+<prefwindow id="awide_preferences" title="Awide Preferences" width="800" height="500" xmlns="http://www.mozilla.org/keymaster/gatekeeper/there.is.only.xul" dlgbuttons="accept,cancel" onunload="awide.reloadPrefs()">
+	<prefpane id='project_ini' label='General' image="chrome://awide/content/icons/preferences-system.png">
+		<preferences>
+			<preference id='pref_theme' name='awide.preferences.theme' type='string' />
+			<preference id='pref_lib' name='awide.preferences.hidelib' type='bool' />
+		</preferences>
+		<label value="Editor theme" />	
+		<menulist id='themelist' preference='pref_theme' onselect='awide.selectTheme(this.selectedItem.getAttribute("value"))'>
+		  <menupopup id='themepopup'>
+			<menuitem label="default" value="default"/>
+			<menuitem label="awide" value="awide"/>
+			<menuitem label="cobalt" value="cobalt"/>
+			<menuitem label="eclipse" value="eclipse"/>
+			<menuitem label="elegant" value="elegant"/>
+			<menuitem label="monokai" value="monokai"/>
+			<menuitem label="neat" value="neat"/>
+			<menuitem label="night" value="night"/>
+			<menuitem label="rubyblue" value="rubyblue"/>
+		  </menupopup>
+		</menulist> 		
+		<checkbox preference='pref_lib' label='Hide "lib" directories in project tree' />
+	</prefpane>
+	<prefpane id='awide_jslint' label='JSLINT' image="chrome://awide/content/icons/dialog-warning.png">
+		<preferences>
+			<preference id='pref_jslint_anon' name='awide.jslint.anon' type='bool' />
+			<preference id='pref_jslint_bitwise' name='awide.jslint.bitwise' type='bool' />
+			<preference id='pref_jslint_browser' name='awide.jslint.browser' type='bool' />
+			<preference id='pref_jslint_cap' name='awide.jslint.cap' type='bool' />
+			<preference id='pref_jslint_confusion' name='awide.jslint.confusion' type='bool' />
+			<preference id='pref_jslint_continue' name='awide.jslint.continue' type='bool' />
+			<preference id='pref_jslint_css' name='awide.jslint.css' type='bool' />
+			<preference id='pref_jslint_debug' name='awide.jslint.debug' type='bool' />
+			<preference id='pref_jslint_devel' name='awide.jslint.devel' type='bool' />
+			<preference id='pref_jslint_eqeq' name='awide.jslint.eqeq' type='bool' />
+			<preference id='pref_jslint_es5' name='awide.jslint.es5' type='bool' />
+			<preference id='pref_jslint_evil' name='awide.jslint.evil' type='bool' />
+			<preference id='pref_jslint_forin' name='awide.jslint.forin' type='bool' />
+			<preference id='pref_jslint_fragment' name='awide.jslint.fragment' type='bool' />
+			<preference id='pref_jslint_newcap' name='awide.jslint.newcap' type='bool' />
+			<preference id='pref_jslint_node' name='awide.jslint.node' type='bool' />
+			<preference id='pref_jslint_nomen' name='awide.jslint.nomen' type='bool' />
+			<preference id='pref_jslint_on' name='awide.jslint.on' type='bool' />
+			<preference id='pref_jslint_passfail' name='awide.jslint.passfail' type='bool' />
+			<preference id='pref_jslint_plusplus' name='awide.jslint.plusplus' type='bool' />
+			<preference id='pref_jslint_properties' name='awide.jslint.properties' type='bool' />
+			<preference id='pref_jslint_regexp' name='awide.jslint.regexp' type='bool' />
+			<preference id='pref_jslint_rhino' name='awide.jslint.rhino' type='bool' />
+			<preference id='pref_jslint_undef' name='awide.jslint.undef' type='bool' />
+			<preference id='pref_jslint_unparam' name='awide.jslint.unparam' type='bool' />
+			<preference id='pref_jslint_sloppy' name='awide.jslint.sloppy' type='bool' />
+			<preference id='pref_jslint_sub' name='awide.jslint.sub' type='bool' />
+			<preference id='pref_jslint_vars' name='awide.jslint.vars' type='bool' />
+			<preference id='pref_jslint_white' name='awide.jslint.white' type='bool' />
+			<preference id='pref_jslint_widget' name='awide.jslint.widget' type='bool' />
+			<preference id='pref_jslint_windows' name='awide.jslint.windows' type='bool' />		
+		</preferences>
+		<hbox>
+			<vbox>
+				<checkbox preference='pref_jslint_anon' label='the space may be omitted in anonymous function declarations' />
+				<checkbox preference='pref_jslint_bitwise' label='bitwise operators should be allowed' />
+				<checkbox preference='pref_jslint_browser' label='the standard browser globals should be predefined' />
+				<checkbox preference='pref_jslint_cap' label='upper case HTML should be allowed' />
+				<checkbox preference='pref_jslint_confusion' label='types can be used inconsistently' />
+				<checkbox preference='pref_jslint_continue' label='the continuation statement should be tolerated' />
+				<checkbox preference='pref_jslint_css' label='CSS workarounds should be tolerated' />
+				<checkbox preference='pref_jslint_debug' label='debugger statements should be allowed' />
+				<checkbox preference='pref_jslint_devel' label='logging should be allowed (console, alert, etc.)' />
+				<checkbox preference='pref_jslint_eqeq' label='== should be allowed' />
+				<checkbox preference='pref_jslint_es5' label='ES5 syntax should be allowed' />
+				<checkbox preference='pref_jslint_evil' label='eval should be allowed' />
+				<checkbox preference='pref_jslint_forin' label='for in statements need not filter' />
+				<checkbox preference='pref_jslint_fragment' label='HTML fragments should be allowed' />
+				<checkbox preference='pref_jslint_newcap' label='constructor names capitalization is ignored' />
+				<checkbox preference='pref_jslint_node' label='Node.js globals should be predefined' />
+			</vbox>
+			<vbox>
+				<checkbox preference='pref_jslint_nomen' label='names may have dangling _' />
+				<checkbox preference='pref_jslint_on' label='HTML event handlers should be allowed' />
+				<checkbox preference='pref_jslint_passfail' label='the scan should stop on first error' />
+				<checkbox preference='pref_jslint_plusplus' label='increment/decrement should be allowed' />
+				<checkbox preference='pref_jslint_properties' label='all property names must be declared with /*properties*/' />
+				<checkbox preference='pref_jslint_regexp' label='the . should be allowed in regexp literals' />
+				<checkbox preference='pref_jslint_rhino' label='the Rhino environment globals should be predefined' />
+				<checkbox preference='pref_jslint_undef' label='variables can be declared out of order' />
+				<checkbox preference='pref_jslint_unparam' label='unused parameters should be tolerated' />
+				<checkbox preference='pref_jslint_sloppy' label='the "use strict"; pragma is optional' />
+				<checkbox preference='pref_jslint_sub' label='all forms of subscript notation are tolerated' />
+				<checkbox preference='pref_jslint_vars' label='multiple var statements per function should be allowed' />
+				<checkbox preference='pref_jslint_white' label='sloppy whitespace is tolerated' />
+				<checkbox preference='pref_jslint_widget' label='the Yahoo Widgets globals should be predefined' />
+				<checkbox preference='pref_jslint_windows' label='MS Windows-specific globals should be predefined' />
+			</vbox>
+		</hbox>
+	</prefpane>
+	<prefpane id='awide_csslint' label='CSSLint' image="chrome://awide/content/icons/dialog-warning.png">
+		<preferences>
+			<preference id='pref_csslint_adjoining_classes' name='awide.csslint.adjoining_classes' type='bool' />
+			<preference id='pref_csslint_box_model' name='awide.csslint.box_model' type='bool' />
+			<preference id='pref_csslint_box_sizing' name='awide.csslint.box_sizing' type='bool' />
+			<preference id='pref_csslint_compatible_vendor_prefixes' name='awide.csslint.compatible_vendor_prefixes' type='bool' />
+			<preference id='pref_csslint_display_property_grouping' name='awide.csslint.display_property_grouping' type='bool' />
+			<preference id='pref_csslint_duplicate_background_images' name='awide.csslint.duplicate_background_images' type='bool' />
+			<preference id='pref_csslint_duplicate_properties' name='awide.csslint.duplicate_properties' type='bool' />
+			<preference id='pref_csslint_empty_rules' name='awide.csslint.empty_rules' type='bool' />
+			<preference id='pref_csslint_errors' name='awide.csslint.errors' type='bool' />
+			<preference id='pref_csslint_fallback_colors' name='awide.csslint.fallback_colors' type='bool' />
+			<preference id='pref_csslint_floats' name='awide.csslint.floats' type='bool' />
+			<preference id='pref_csslint_font_faces' name='awide.csslint.font_faces' type='bool' />
+			<preference id='pref_csslint_font_sizes' name='awide.csslint.font_sizes' type='bool' />
+			<preference id='pref_csslint_gradients' name='awide.csslint.gradients' type='bool' />
+
+			<preference id='pref_csslint_ids' name='awide.csslint.ids' type='bool' />		
+			<preference id='pref_csslint_import' name='awide.csslint.import' type='bool' />
+			<preference id='pref_csslint_important' name='awide.csslint.important' type='bool' />
+			<preference id='pref_csslint_known_properties' name='awide.csslint.known_properties' type='bool' />
+			<preference id='pref_csslint_outline_none' name='awide.csslint.outline_none' type='bool' />
+			<preference id='pref_csslint_overqualified_elements' name='awide.csslint.overqualified_elements' type='bool' />
+			<preference id='pref_csslint_qualfied_headings' name='awide.csslint.qualified_headings' type='bool' />
+			<preference id='pref_csslint_regex_selectors' name='awide.csslint.regex_selectors' type='bool' />
+			<preference id='pref_csslint_shorthand' name='awide.csslint.shorthand' type='bool' />
+			<preference id='pref_csslint_text_indent' name='awide.csslint.text_indent' type='bool' />
+			<preference id='pref_csslint_unique_headings' name='awide.csslint.unique_headings' type='bool' />
+			<preference id='pref_csslint_universal_selector' name='awide.csslint.universal_selector' type='bool' />
+			<preference id='pref_csslint_vendor_prefix' name='awide.csslint.vendor_prefix' type='bool' />
+			<preference id='pref_csslint_zero_units' name='awide.csslint.zero_units' type='bool' />
+		</preferences>
+			<hbox>
+				<vbox>
+					<checkbox preference='pref_csslint_adjoining_classes' label='Disallow adjoining classes'  />
+					<checkbox preference='pref_csslint_box_model' label='Beware of broken box sizing'  />
+					<checkbox preference='pref_csslint_box_sizing' label='Disallow box_sizing'  />
+					<checkbox preference='pref_csslint_compatible_vendor_prefixes' label='Require compatible vendor prefixes'  />
+					<checkbox preference='pref_csslint_display_property_grouping' label='Strict display properties'  />
+					<checkbox preference='pref_csslint_duplicate_background_images' label='Disallow duplicate background images'  />
+					<checkbox preference='pref_csslint_duplicate_properties' label='Disallow duplicate properties'  />
+					<checkbox preference='pref_csslint_empty_rules' label='Disallow empty rules'  />					
+					<checkbox preference='pref_csslint_fallback_colors' label='Require fallbackcolors'  />
+					<checkbox preference='pref_csslint_floats' label='Disallow too many floats'  />
+					<checkbox preference='pref_csslint_font_faces' label='Disallow too many (web)font faces'  />
+					<checkbox preference='pref_csslint_font_sizes' label='Disallow too many font sizes'  />
+					<checkbox preference='pref_csslint_gradients' label='Require all gradient definitions'  />
+				</vbox>
+				<vbox>
+					<checkbox preference='pref_csslint_ids' label='Disallow ID selectors'  />		
+					<checkbox preference='pref_csslint_import' label='Disallow @import'  />
+					<checkbox preference='pref_csslint_important' label='Disallow !important'  />
+					<checkbox preference='pref_csslint_known_properties' label='Require known properties'  />
+					<checkbox preference='pref_csslint_outline_none' label='Disallow outline:none'  />
+					<checkbox preference='pref_csslint_overqualified_elements' label='Disallow overqualified elements'  />
+					<checkbox preference='pref_csslint_qualfied_headings' label='qualified_headings'  />
+					<checkbox preference='pref_csslint_regex_selectors' label='Disallow regex_like selectors'  />
+					<checkbox preference='pref_csslint_shorthand' label='Require shorthand properties'  />
+					<checkbox preference='pref_csslint_text_indent' label='Disallow negative text_indent'  />
+					<checkbox preference='pref_csslint_unique_headings' label='Require unique headings'  />
+					<checkbox preference='pref_csslint_universal_selector' label='Disallow universal selector'  />
+					<checkbox preference='pref_csslint_vendor_prefix' label='Require standard property with vendor prefix'  />
+					<checkbox preference='pref_csslint_zero_units' label='Disallow units for zero values'  />
+				</vbox>
+			</hbox>					
+	</prefpane>	
+</prefwindow>
