@@ -14,6 +14,11 @@
 			<menuitem label="add file to project" id='project-actions-add' oncommand="awide.openFileSaveDialog()"/>			
 		</menupopup>
 	</popupset>	
+	<keyset>
+		<key id="save-key" modifiers="accel" key="S" oncommand="awide.saveCurrentFile()"/>
+		<key id="open-key" modifiers="accel" key="O" oncommand="awide.openFileDialog()"/>
+		<key id="run-key" keycode="VK_F5" oncommand="awide.runCurrentProject()"/>
+	</keyset>	
 	<menubar id="file-menubar">
 	  <menu id="file-menu" label="File">
 		<menupopup id="file-popup">
@@ -24,8 +29,8 @@
 				<menuitem label="Existing File" />
 			</menupopup>
 		  </menu>
-		  <menuitem label="Open" class='menuitem-iconic' oncommand="awide.openFileDialog()" image='chrome://awide/content/icons/document-open.png'/>
-		  <menuitem label="Save" class='menuitem-iconic' oncommand="awide.saveCurrentFile()" image='chrome://awide/content/icons/document-save.png'/>
+		  <menuitem label="Open" key="open-key" class='menuitem-iconic' oncommand="awide.openFileDialog()" image='chrome://awide/content/icons/document-open.png'/>
+		  <menuitem label="Save" key="save-key" class='menuitem-iconic' oncommand="awide.saveCurrentFile()" image='chrome://awide/content/icons/document-save.png'/>
 		  <menuseparator/>
 			<menuitem label="Add-Ons" class='menuitem-iconic' oncommand="awide.showExtensionsManager()" image='chrome://awide/content/icons/document-save.png'/>		  
 		  <menuitem label="Exit"/>
@@ -40,7 +45,7 @@
 	  </menu>
 	  <menu id="build-menu" label="Project">
 		<menupopup id="build-popup">
-		  <menuitem label="Run" oncommand="awide.runCurrentProject()" class='menuitem-iconic' image='chrome://awide/content/icons/applications-system.png'/>
+		  <menuitem label="Run" key="run-key" oncommand="awide.runCurrentProject()" class='menuitem-iconic' image='chrome://awide/content/icons/applications-system.png'/>
 		  <menuitem label="Project Options" oncommand="awide.projectPreferences()" class='menuitem-iconic' image='chrome://awide/content/icons/preferences-desktop.png'/>
 		</menupopup>
 	  </menu>	  
