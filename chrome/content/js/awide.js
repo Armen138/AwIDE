@@ -463,7 +463,9 @@ awide.validateFile = function (file) {
 		file.errors = errors;
 		awide.setErrorList(file);		
 	}
-    file.index = file.frame.tab.parse();
+	if (file.type) {
+		file.index = file.type.index(file.content);
+	}
     awide.fillFunctionList(file);
 };
 awide.tabChanged = function () {
