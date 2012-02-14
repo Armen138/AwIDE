@@ -951,7 +951,7 @@ awide.openFileSaveDialog = function () {
 		dirpath.initWithPath(awide.fixSlashes(awide.activeProject.path + awide.contextCell.path));
 		fp.displayDirectory = dirpath;
 	} else {
-		dirpath.initwithPath(awide.activeProject.path);
+		dirpath.initWithPath(awide.activeProject.path);
 		fp.displayDirectory = dirpath;
 	}
     if (fp.show() === nsIFilePicker.returnOK) {
