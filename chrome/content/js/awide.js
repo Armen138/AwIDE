@@ -424,8 +424,8 @@ awide.saveCurrentFile = function () {
     label = label.replace("*", "");
     currentTab.setAttribute("label", label);
     awide.validateFile(file);
-    awide.activeProject.rescan(file);
-    awide.addToTree(awide.activeProject);
+    //awide.activeProject.rescan(file);
+    //awide.addToTree(awide.activeProject);
 };
 
 awide.setErrorList = function (file) {
@@ -582,9 +582,12 @@ awide.selectTab = function (file) {
     var tabs = document.getElementById("editortabs"),
         tablist = tabs.getElementsByTagName("tab"),
         i;
+	//set window title to file.fullpath
+	document.title = "[" + awide.activeProject.name + "] " + file.fullpath;
     for (i = 0; i < tablist.length; i += 1) {
         if (tablist[i].getAttribute("value").split("|")[1] === file.fullpath) {
             tabs.selectedItem = tablist[i];
+			awide.hideInactive();  
             return;
         }
     }
@@ -610,7 +613,9 @@ awide.createTab = function (file) {
         panels = document.getElementById("editorpanels"),
         newpanel = document.createElement("tabpanel"),
         tabframe = document.createElement("iframe"),
+		tabcount = tabs.getElementsByTagName("tab").length,
         newtab = tabs.appendItem(file.name, awide.activeProject.name + "|" + file.fullpath);
+	newtab.addEventListener("dblclick", function () { awide.closeTab(newtab); }, true);
     tabframe.setAttribute("src", "chrome://awide/content/main.html");
     tabframe.setAttribute("id", file.name.replace(".", "_"));
     tabframe.setAttribute("type", "chrome");
@@ -703,7 +708,7 @@ awide.addToTree = function (project) {
     treerow.appendChild(treecell);
     treeitem.appendChild(treerow);
     treeitem.appendChild(treechildren);
-    projectLevel.appendChild(treeitem);    
+    projectLevel.appendChild(treeitem); 	
     for (shortpath in files) {
 		//awide.status("|" + shortpath + "|");
         if (files.hasOwnProperty(shortpath)) {
@@ -841,11 +846,13 @@ awide.matchError = function (event) {
         //file.frame.tab.editor.focus();
 };
 
-awide.closeTab = function (index) {
+awide.closeTab = function (letab) {
     var tabs = document.getElementById("editortabs"),
 		tabpanels = document.getElementById("editorpanels"),
         panellist = tabpanels.getElementsByTagName("tabpanel"),
+		index = tabs.getIndexOfItem(letab),
         i;
+	
 	tabs.removeItemAt(index);
 	tabpanels.removeChild(panellist[index]);	
 };
@@ -981,6 +988,11 @@ awide.findFiles = function (dir, typeregex) {
 			}			
 		}				
 	}
+	sourceFiles.sort( function (a, b) { 
+		if(a.name < b.name) return -1;
+		if(a.name > b.name) return 1;
+		return 0;
+	});
 	return sourceFiles;	
 };
 
@@ -1071,6 +1083,23 @@ awide.reloadPrefs = function () {
 		}
 	}	
 	awide.hideLibElements(awide.hidelib);
+};
+
+awide.replaceAll = function () {
+	awide.findreplace = window.open("chrome://awide/content/replace.xul", "replaceall", "chrome,width=200,height=150,centerscreen");
+	awide.findreplace.awide = awide;
+};
+awide.replaceAllInCurrent = function () {
+	if(awide.findreplace) {
+		var doc = awide.findreplace.document; //.contentWindow.document;
+		text = 			doc.getElementById("findwhat").value;//getAttribute("value");
+		replacewith = 	doc.getElementById("replacewith").value;//getAttribute("value");
+		inselection = 	doc.getElementById("inselection").getAttribute("checked");		
+		//alert("replacing " + text + " with " + replacewith + " in doc/sel: " + inselection);
+		text = new RegExp(text, "g");
+		awide.getCurrentFile().frame.tab.replaceAll(text, replacewith, inselection);
+		awide.findreplace.close();
+	}
 };
 
 window.addEventListener("load", function() {

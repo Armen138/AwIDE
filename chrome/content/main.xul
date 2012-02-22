@@ -18,6 +18,7 @@
 		<key id="save-key" modifiers="accel" key="S" oncommand="awide.saveCurrentFile()"/>
 		<key id="open-key" modifiers="accel" key="O" oncommand="awide.openFileDialog()"/>
 		<key id="run-key" keycode="VK_F5" oncommand="awide.runCurrentProject()"/>
+		<key id="replace-key" keycode="VK_F2" oncommand="awide.replaceAll()"/>
 	</keyset>	
 	<menubar id="file-menubar">
 	  <menu id="file-menu" label="File">
@@ -40,6 +41,7 @@
 		<menupopup id="edit-popup">
 		  <menuitem label="Undo" oncommand="awide.undo()" class='menuitem-iconic' image='chrome://awide/content/icons/edit-undo.png' />
 		  <menuitem label="Redo" oncommand="awide.redo()" class='menuitem-iconic' image='chrome://awide/content/icons/edit-redo.png'/>
+		  <menuitem label="Replace" key="replace-key" oncommand="awide.replaceAll()" class='menuitem-iconic' image='chrome://awide/content/icons/find-replace.png'/>
 		  <menuitem label="Preferences"  oncommand="awide.preferences()" class='menuitem-iconic' image='chrome://awide/content/icons/preferences-system.png'/>
 		</menupopup>
 	  </menu>
@@ -152,6 +154,7 @@
 						<toolbar id='searchbar'>							
 							<textbox value='' id="searchbox" onchange='awide.search(this.value)' />						
 							<toolbarbutton oncommand="awide.clearSearchResults()" image='chrome://awide/content/icons/edit-clear.png' tooltiptext="clear search results"></toolbarbutton>
+							<toolbarbutton oncommand="awide.replaceAll()" image='chrome://awide/content/icons/find-replace.png' tooltiptext="find/replace regexp"></toolbarbutton>							
 						</toolbar>
 						<listbox id='searchoutputlist' onclick="awide.matchSearchResult(event)" flex='1'>
 							<listhead>

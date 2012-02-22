@@ -18,6 +18,7 @@ var Tab = function (file) {
 	this.indicatorNode2 = document.createElement("div");
 	$(this.indicatorNode).addClass("line-indicator");
 	$(this.indicatorNode2).addClass("line-indicator2");
+	this.currentResults = [];
 	this.onChange = function () {
 		awide.markUnsaved(self.file);
 	};
@@ -48,6 +49,30 @@ var Tab = function (file) {
 		search_markers = [];		
 	};
 	
+	this.replace = function (newtext) {
+		for (var i = 0; i < this.currentResults.length; i++) {
+			this.editor.replaceRange(newtext, this.currentResults[i].from, this.currentResults[i].to);
+		}
+	};
+	
+	this.replaceAll = function (orig, newtext, selection) {
+		var text;
+		var cpos;
+		if(selection) {
+			text = this.editor.getSelection();			 
+		} else {
+			cpos = this.editor.cursorCoords();
+			text = this.editor.getValue();
+		}		
+		text = text.replace(orig, newtext);		
+		if(selection) {
+			this.editor.replaceSelection(text);			
+		} else {
+			this.editor.setValue(text);
+			this.editor.scrollTo(cpos.x, cpos.y);
+		}		
+	};
+	
 	this.find = function (searchterm) {	
 		awide.clearSearch();	
 		var line = 0, ch = 0;
@@ -63,7 +88,10 @@ var Tab = function (file) {
 			ch = lines[i].indexOf(searchterm);
 			if(ch !== -1) {				
 				search_markers.push(this.editor.markText({line: i, ch: ch}, {line: i, ch: ch + searchterm.length}, "search-result"));
-				awide.searchResult({line: i, character: ch, message: lines[i].replace(/^\s*/, "")});
+				var sr = {line: i, character: ch, message: lines[i].replace(/^\s*/, "")};
+				var sb = { from: { line: i, ch: ch}, to: {line: i, ch: ch + searchterm.length} };
+				this.currentResults.push(sr);
+				awide.searchResult(sb);
 			}
 		}		
 	};
