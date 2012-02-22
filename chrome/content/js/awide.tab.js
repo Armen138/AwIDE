@@ -48,13 +48,13 @@ var Tab = function (file) {
 		}
 		search_markers = [];		
 	};
-	
+	/*
 	this.replace = function (newtext) {
 		for (var i = 0; i < this.currentResults.length; i++) {
 			this.editor.replaceRange(newtext, this.currentResults[i].from, this.currentResults[i].to);
 		}
 	};
-	
+	*/
 	this.replaceAll = function (orig, newtext, selection) {
 		var text;
 		var cpos;
@@ -88,10 +88,7 @@ var Tab = function (file) {
 			ch = lines[i].indexOf(searchterm);
 			if(ch !== -1) {				
 				search_markers.push(this.editor.markText({line: i, ch: ch}, {line: i, ch: ch + searchterm.length}, "search-result"));
-				var sr = {line: i, character: ch, message: lines[i].replace(/^\s*/, "")};
-				var sb = { from: { line: i, ch: ch}, to: {line: i, ch: ch + searchterm.length} };
-				this.currentResults.push(sr);
-				awide.searchResult(sb);
+				awide.searchResult({line: i, character: ch, message: lines[i].replace(/^\s*/, "")});
 			}
 		}		
 	};
