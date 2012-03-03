@@ -46,14 +46,14 @@ awide.$getLoaders = function () {
     var cr = Components.classes['@mozilla.org/chrome/chrome-registry;1'].getService(Components.interfaces["nsIChromeRegistry"]);
     var loaderName;
     var i;
-    rv = cr.convertChromeURL(uri).spec;	
+    var rv = cr.convertChromeURL(uri).spec;	
 	//root = new awide.Directory(awide.fixSlashes(rv.replace("file://", "")));
 	root = new awide.Directory(awide.uri2path(rv));
 	files = root.getFiles();
     for (i = 0; i < files.length; i++) {        
-        if (files[i].leafName.indexOf("loader") == 0) {
+        if (files[i].leafName.indexOf("loader") === 0) {
 			//this is a loader script.
-			loaderName = files[i].leafName.substr(files[i].leafName.indexOf("-") + 1).replace(".js", "");                			
+            loaderName = files[i].leafName.substr(files[i].leafName.indexOf("-") + 1).replace(".js", "");
 			awide.status("Registered project loader: " + loaderName, awide.INFO);
 			awide.projectLoaders[loaderName] = {};
 			awide.scriptLoader.loadSubScript("chrome://awide/content/js/" + files[i].leafName + (awide.debug ? "?" + Math.random() : ""), awide.projectLoaders[loaderName], "UTF-8");
@@ -68,16 +68,16 @@ awide.$getFileTypes = function () {
     var ios = Components.classes['@mozilla.org/network/io-service;1'].getService(Components.interfaces["nsIIOService"]);
     var uri = ios.newURI(root, "UTF-8", null);
     var cr = Components.classes['@mozilla.org/chrome/chrome-registry;1'].getService(Components.interfaces["nsIChromeRegistry"]);
-    var loaderName;
+    //var loaderName;
     var i;
-    rv = cr.convertChromeURL(uri).spec;	
+    var rv = cr.convertChromeURL(uri).spec;	
 	//root = new awide.Directory(awide.fixSlashes(rv.replace("file://", "")));
 	root = new awide.Directory(awide.uri2path(rv));
 	files = root.getFiles();
     for (i = 0; i < files.length; i++) {        
-        if (files[i].leafName.indexOf("filetype") == 0) {
+        if (files[i].leafName.indexOf("filetype") === 0) {
 			//this is a filetype script.
-			ftName = files[i].leafName.substr(files[i].leafName.indexOf("-") + 1).replace(".js", "");                			
+			var ftName = files[i].leafName.substr(files[i].leafName.indexOf("-") + 1).replace(".js", "");
 			awide.status("Registered filetype: " + ftName, awide.INFO);
 			awide.fileTypes[ftName] = {};
 			awide.scriptLoader.loadSubScript("chrome://awide/content/js/" + files[i].leafName + (awide.debug ? "?" + Math.random() : ""), awide.fileTypes[ftName], "UTF-8");
@@ -88,7 +88,7 @@ awide.$getFileTypes = function () {
 awide.processObserver = function () {
     'use strict';
     this.observe = function (subject, topic, data) {
-        awide.status(subjtect + ", " + topic + ", " + data);
+        awide.status(subject + ", " + topic + ", " + data);
     };
 };
 
@@ -97,7 +97,7 @@ awide.breakpoint = function () {
 };
 
 awide.stacktrace = function () {	
-	outputlist = document.getElementById("stackoutputlist");
+	var outputlist = document.getElementById("stackoutputlist");
 	while (outputlist.itemCount > 0) {
 		outputlist.removeItemAt(0);
 	}	
@@ -114,7 +114,7 @@ awide.stacktrace = function () {
 				file = matches[2];
 				line = parseInt(matches[3], 10);
 				if(file.indexOf("file:") != -1) {
-					pfile = awide.fileIn({fullpath: awide.uri2path(file)}, awide.activeProject.files);
+					var pfile = awide.fileIn({fullpath: awide.uri2path(file)}, awide.activeProject.files);
 					if(pfile) {	
 						if(pfile.index.length == 0) {
 							pfile.reIndex();
@@ -143,10 +143,11 @@ awide.projectPreferences = function () {
     awide.projectOptions = window.open("chrome://awide/content/project-preferences.xul", "popt", "chrome,centerscreen");//, "Project Preferences", "chrome,titlebar,toolbar,centerscreen,dialog=yes");	
 	awide.projectOptions.addEventListener("DOMContentLoaded", function() {
 		awide.projectOptions.awide = awide;
-		var vbox = awide.projectOptions.document.getElementById("project-options-panel");
+		var vbox = awide.projectOptions.document.getElementById("project-options-panel"),
+            hbox;
 		var option;
 		for (option in awide.activeProject.settings) {			
-			var hbox = document.createElement('hbox');		
+			hbox = document.createElement('hbox');		
 			var label = document.createElement('label');
 			var entry = document.createElement('textbox');
 			label.setAttribute('value', awide.activeProject.settings[option].label);
@@ -247,7 +248,7 @@ awide.setPosStatus = function (coords) {
 };
 
 awide.clearDebug = function () {
-	outputlist = document.getElementById("debugoutputlist");
+	var outputlist = document.getElementById("debugoutputlist");
 
 	while (outputlist.itemCount > 0) {
 		outputlist.removeItemAt(0);
@@ -259,8 +260,7 @@ awide.stackFunction = function (func, file, line) {
     var olist = "stackoutputlist";
     var outputlist = document.getElementById(olist),
         row = document.createElement("listitem"),
-        cell = document.createElement("listcell"),
-        img;
+        cell = document.createElement("listcell");
     cell = document.createElement("listcell");
     cell.setAttribute("label", line || "*");
     row.appendChild(cell);
@@ -358,8 +358,7 @@ awide.searchResult = function (result) {
     'use strict';
     var outputlist = document.getElementById("searchoutputlist"),
         row = document.createElement("listitem"),
-        cell = document.createElement("listcell"),
-        img;    
+        cell = document.createElement("listcell");
     cell = document.createElement("listcell");
     cell.setAttribute("label", result.line || "*");
     row.appendChild(cell);
@@ -416,10 +415,7 @@ awide.saveCurrentFile = function () {
     'use strict';
     var currentTab = document.getElementById("editortabs").selectedItem,        
         label = currentTab.getAttribute("label"),
-        file = awide.getCurrentFile(),
-        errors,
-        outputlist,
-        i;
+        file = awide.getCurrentFile();
     file.save();
     label = label.replace("*", "");
     currentTab.setAttribute("label", label);
@@ -431,7 +427,8 @@ awide.saveCurrentFile = function () {
 awide.setErrorList = function (file) {
 	var errors = file.errors,
 		outputtabs = document.getElementById('statustabs'),
-		outputlist = document.getElementById("erroroutputlist");
+		outputlist = document.getElementById("erroroutputlist"),
+        i;
 
 	while (outputlist.itemCount > 0) {
 		outputlist.removeItemAt(0);
@@ -454,10 +451,7 @@ awide.setErrorList = function (file) {
 
 awide.validateFile = function (file) {
     'use strict';
-    var errors,
-		index,
-        outputlist,                
-        i;
+    var errors;
     errors = file.frame.tab.validate();
     if(errors){
 		file.errors = errors;
@@ -483,7 +477,7 @@ awide.tabChanged = function () {
 
 awide.methodChanged = function () {
 	var methodList = document.getElementById("methodlist"),
-		methodLine = parseInt(methodList.selectedItem.getAttribute("value")),
+		methodLine = parseInt(methodList.selectedItem.getAttribute("value"), 10),
 		file = awide.getCurrentFile();
 	if (file && methodLine !== 0) {
 		file.frame.lineIndicator({ line: methodLine, ch: 0 }, true);	
@@ -613,7 +607,7 @@ awide.createTab = function (file) {
         panels = document.getElementById("editorpanels"),
         newpanel = document.createElement("tabpanel"),
         tabframe = document.createElement("iframe"),
-		tabcount = tabs.getElementsByTagName("tab").length,
+		//tabcount = tabs.getElementsByTagName("tab").length,
         newtab = tabs.appendItem(file.name, awide.activeProject.name + "|" + file.fullpath);
 	newtab.addEventListener("dblclick", function () { awide.closeTab(newtab); }, true);
     tabframe.setAttribute("src", "chrome://awide/content/main.html");
@@ -637,12 +631,11 @@ awide.hideInactive = function () {
     'use strict';
     var tabs = document.getElementById("editortabs"),
         tablist = tabs.getElementsByTagName("tab"),
-        label,
         i;
     for (i = 0; i < tablist.length; i += 1) {
-		var a = tablist[i].getAttribute("value");
-		var b = a.split("|");
-		var c = b[0];
+		//var a = tablist[i].getAttribute("value");
+		//var b = a.split("|");
+		//var c = b[0];
         if (tablist[i].getAttribute("value").split("|")[0] === awide.activeProject.name) {
 			tablist[i].hidden = false;
         } else {
@@ -708,11 +701,11 @@ awide.addToTree = function (project) {
     treerow.appendChild(treecell);
     treeitem.appendChild(treerow);
     treeitem.appendChild(treechildren);
-    projectLevel.appendChild(treeitem); 	
+    projectLevel.appendChild(treeitem);
     for (shortpath in files) {
 		//awide.status("|" + shortpath + "|");
         if (files.hasOwnProperty(shortpath)) {
-			if(shortpath != ""){
+			if(shortpath !== ""){
 			pathitem = document.createElement("treeitem");
 			pathrow = document.createElement("treerow");
 			pathcell = document.createElement("treecell");
@@ -742,7 +735,7 @@ awide.addToTree = function (project) {
                 filecell.setAttribute("label", files[shortpath][i].name);                
                 filerow.appendChild(filecell);
                 fileitem.appendChild(filerow);
-                if(shortpath != "") {
+                if(shortpath !== "") {
 					pathchildren.appendChild(fileitem);
 				} else {
 					treechildren.appendChild(fileitem);
@@ -784,13 +777,13 @@ awide.openProject = function (file) {
 awide.matchStackTrace = function (event) {
     'use strict';
     var errorList = document.getElementById("stackoutputlist"),
-		tabs = document.getElementById("editortabs"),
+		//tabs = document.getElementById("editortabs"),
         selectedItem = errorList.selectedItem,
         cells = selectedItem.getElementsByTagName("listcell"),
         line = cells[0].getAttribute("label") - 1,        
         fileName = cells[2].getAttribute("label"),
         file = null;
-    if(fileName != "") {
+    if(fileName !== "") {
 		file = awide.fileIn(new awide.File(fileName), awide.activeProject.files);
 	} else {
 		return;
